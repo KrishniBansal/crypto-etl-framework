@@ -1,0 +1,42 @@
+--- FAILURE AT None ---
+DAG: enterprise_bitcoin_etl_v1
+Task: create_daily_summary
+Error: (psycopg2.errors.UndefinedColumn) column "Volume_(BTC)" does not exist
+LINE 8:             SUM("Volume_(BTC)")
+                        ^
+
+[SQL: 
+        INSERT INTO bitcoin_daily_summary (trade_date, daily_high, daily_low, avg_price, total_volume)
+        SELECT 
+            DATE("Timestamp") as trade_date,
+            MAX("High"),
+            MIN("Low"),
+            AVG("Close"),
+            SUM("Volume_(BTC)")
+        FROM cleaned_bitcoin
+        WHERE DATE("Timestamp") > (SELECT COALESCE(MAX(trade_date), '1900-01-01') FROM bitcoin_daily_summary)
+        GROUP BY 1
+        ON CONFLICT (trade_date) DO UPDATE SET
+            daily_high = EXCLUDED.daily_high,
+            daily_low = EXCLUDED.daily_low,
+            avg_price = EXCLUDED.avg_price,
+            total_volume = EXCLUDED.total_volume;
+        ]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+
+--- FAILURE AT None ---
+DAG: enterprise_bitcoin_etl_v1
+Task: validate_data_quality
+Error: CHAOS TEST: Testing if my alerts work!
+
+--- FAILURE AT None ---
+DAG: enterprise_bitcoin_etl_v1
+Task: ingest_live_price
+Error: (psycopg2.errors.UndefinedColumn) column "Volume_(BTC)" of relation "cleaned_bitcoin" does not exist
+LINE 1: ...oin ("Timestamp", "Open", "High", "Low", "Close", "Volume_(B...
+                                                             ^
+
+[SQL: INSERT INTO cleaned_bitcoin ("Timestamp", "Open", "High", "Low", "Close", "Volume_(BTC)", "Weighted_Price") VALUES (%(Timestamp)s, %(Open)s, %(High)s, %(Low)s, %(Close)s, %(Volume_ABTCZ)s, %(Weighted_Price)s)]
+[parameters: {'Timestamp': datetime.datetime(2026, 3, 20, 18, 29, 32, 966440), 'Open': 69795, 'High': 69795, 'Low': 69795, 'Close': 69795, 'Volume_ABTCZ': 572973.3769173219, 'Weighted_Price': 69795}]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+
