@@ -1,0 +1,12 @@
+# This is a TEMPLATE. 
+# Rename this file to 'airflow_settings.yaml' and add your real password to use it.
+
+airlfow:
+  connections:
+    - conn_id: postgres_default
+      conn_type: postgres
+      host: postgres
+      login: postgres
+      password: YOUR_PASSWORD_HERE
+      port: 5432
+      schema: postgres
