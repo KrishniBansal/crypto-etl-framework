@@ -2,7 +2,7 @@
 This project is a functional Data Engineering pipeline designed to bridge the gap between historical crypto archives and live market data. It uses Apache Airflow to orchestrate a Medallion Architecture, moving data from raw CSVs and REST APIs into a structured PostgreSQL warehouse.
 
 ## 📂 Project Structure
-
+```text
 .
 ├── dags/
 │   └── bitcoin_etl_dag.py       # Airflow DAG defining the pipeline logic
@@ -20,6 +20,7 @@ This project is a functional Data Engineering pipeline designed to bridge the ga
 ├── airflow_settings.yaml        # Astro CLI Docker configuration
 ├── requirements.txt             # Python libraries (Pandas, SQLAlchemy etc.)
 └── README.md                    # Project documentation
+```
 
 ## 🚀 Engineering Features
 ### 1. Hybrid Ingestion (Kaggle + Live)
